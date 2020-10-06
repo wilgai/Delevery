@@ -23,7 +23,7 @@ namespace Delevery.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
             await CheckRolesAsync();
-            await CheckUserAsync("1010", "Juan", "Zuluaga", "lorimerwilgay@gmailmail.com", "322 311 4620", "Calle Luna Calle Sol", UserType.Admin);
+            await CheckUserAsync("00000000000", "Juan", "Zuluaga", "lorimerwilgai23@outlook.com", "322 311 4620", "Calle 17 Santo Domingo", UserType.Admin);
         }
 
         private async Task CheckRolesAsync()
@@ -58,6 +58,10 @@ namespace Delevery.Web.Data
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+
+                string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
+
             }
 
             return user;

@@ -32,7 +32,7 @@
 				<ul class="nav navbar-nav navbar-left">
 					@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 					{
-						<li><a asp-area="" asp-controller="Countries" asp-action="Index">Countries</a></li>
+						<li><a asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a></li>
 						<li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
 						<li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
 					}
