@@ -28,6 +28,12 @@ namespace Delevery.Web.Controllers
 
         }
 
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

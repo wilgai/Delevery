@@ -23,7 +23,7 @@ namespace Delevery.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
             await CheckRolesAsync();
-            await CheckUserAsync("00000000000", "Juan", "Zuluaga", "lorimerwilgai23@outlook.com", "322 311 4620", "Calle 17 Santo Domingo", UserType.Admin);
+            await CheckUserAsync("00000000000", "Wilgai", "Lorimer", "lorimerwilgai23@outlook.com", "322 311 4620", "Calle 17 Santo Domingo", UserType.Admin);
         }
 
         private async Task CheckRolesAsync()

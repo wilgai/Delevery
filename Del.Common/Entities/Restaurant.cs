@@ -20,7 +20,7 @@ namespace Del.Common.Entities
         //TODO: Pending to put the correct paths
         [Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:44343/images/noimage.png"
+            ? $"https://delevery.azurewebsites.net/images/noimage.png"
             : $"https://delevery.blob.core.windows.net/restaurants/{ImageId}";
     }
 }
