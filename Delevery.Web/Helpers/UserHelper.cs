@@ -139,8 +139,11 @@ namespace Delevery.Web.Helpers
             return await _userManager.ResetPasswordAsync(user, token, password);
         }
 
+        //Here the code to validate a user password
 
-
-
+        public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(user, password, false);
+        }
     }
 }

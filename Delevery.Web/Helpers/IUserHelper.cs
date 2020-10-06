@@ -40,6 +40,7 @@ namespace Delevery.Web.Helpers
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
+        Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
 
 
