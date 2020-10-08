@@ -11,7 +11,7 @@ namespace Delevery.Prism.ViewModels
         private ObservableCollection<ProductImage> _images;
         public ProductDetailPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = Languages.Products;
+            Title = Languages.Product;
         }
         public ObservableCollection<ProductImage> Images
         {

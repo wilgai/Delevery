@@ -27,7 +27,7 @@ namespace Delevery.Prism.ViewModels
         {
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = Languages.Product;
+            Title = Languages.Products;
             LoadProductsAsync();
         }
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowProducts));

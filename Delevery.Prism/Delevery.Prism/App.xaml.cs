@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Del.Common.Services;
 using Syncfusion.Licensing;
 
+
 namespace Delevery.Prism
 {
     public partial class App
@@ -23,7 +24,9 @@ namespace Delevery.Prism
             
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"NavigationPage/{nameof(ProductsPage)}");
+            NavigationService.NavigateAsync($"{nameof(OnSaleMasterDetailPage)}/NavigationPage/{nameof(ProductsPage)}");
+            //await NavigationService.NavigateAsync($"NavigationPage/{nameof(OnSaleMasterDetailPage)}");
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -35,6 +38,11 @@ namespace Delevery.Prism
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<ProductsPage, ProductsPageViewModel>();
             containerRegistry.RegisterForNavigation<ProductDetailPage, ProductDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<OnSaleMasterDetailPage, OnSaleMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<ShowCarPage, ShowCarPageViewModel>();
+            containerRegistry.RegisterForNavigation<ShowHistoryPage, ShowHistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
         }
     }
 }

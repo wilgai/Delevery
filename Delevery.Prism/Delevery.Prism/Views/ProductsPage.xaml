@@ -9,6 +9,7 @@
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
             xmlns:i18n="clr-namespace:Delevery.Prism.Helpers"
              x:Class="Delevery.Prism.Views.ProductsPage"
+             BackgroundColor="{StaticResource ColorBackground}"
              Title="{Binding Title}">
 
 
@@ -65,9 +66,10 @@
         <busyindicator:SfBusyIndicator AnimationType="Cupertino" 
                                        AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
                 	                   AbsoluteLayout.LayoutFlags="All"
-                	                   BackgroundColor="Silver"
+                                       
+                	                   BackgroundColor="{StaticResource ColorAccent}"
                 	                   HorizontalOptions="Center"
-                	                   TextColor="White"
+                	                   TextColor="{StaticResource ColorFontInverse}"
                 	                   IsBusy="{Binding IsRunning}"
                 	                    Title="{i18n:Translate Loading}"
                 	                   VerticalOptions="Center"
