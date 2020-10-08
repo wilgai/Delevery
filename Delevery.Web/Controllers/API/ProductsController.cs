@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,9 @@ namespace Delevery.Web.Controllers.API
                 .Include(p => p.Restaurant)
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
-                .Where(p => p.IsActive));
+                .Where(p => p.IsActive)
+                .OrderBy(p => p.Name)
+                );
         }
     }
 

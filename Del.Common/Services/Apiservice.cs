@@ -53,10 +53,7 @@ namespace Del.Common.Services
             }
         }
 
-        Task<Response> IApiservice.GetListAsync<T>(string urlBase, string servicePrefix, string controller)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 
 }
