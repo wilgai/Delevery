@@ -198,4 +198,13 @@
   <data name="Logout" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
+
+	<data name="LoginFacebook" xml:space="preserve">
+    <value>Ingresar con Facebook</value>
+  </data>
+	<data name="ChangeOnSocialNetwork" xml:space="preserve">
+    <value>Los usuarios registrados por redes sociales, deben cambiar la foto o contraseña en la red social.</value>
+  </data>
+
+
 </root>

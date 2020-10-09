@@ -195,4 +195,12 @@
   <data name="Logout" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>
+
+	<data name="LoginFacebook" xml:space="preserve">
+    <value>Connectez-vous avec Facebook</value>
+  </data>
+	<data name="ChangeOnSocialNetwork" xml:space="preserve">
+    <value>Les utilisateurs inscrits sur les réseaux sociaux doivent changer la photo ou le mot de passe sur le réseau social.</value>
+  </data>
+
 </root>

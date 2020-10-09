@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Plugin.FacebookClient" Version="2.2.1" />
     <PackageReference Include="Syncfusion.Xamarin.Core" Version="18.3.0.38" />
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator" Version="18.3.0.38" />
     <PackageReference Include="Syncfusion.Xamarin.SfRotator" Version="18.3.0.38" />

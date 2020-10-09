@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Delevery</string>
+	<string name="facebook_app_name">Delevery</string>
+	<string name="facebook_app_id">797729281039219</string>
+	<string name="fb_login_protocol_scheme">fb797729281039219</string>
+
 </resources>

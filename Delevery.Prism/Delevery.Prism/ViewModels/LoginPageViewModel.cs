@@ -1,12 +1,17 @@
 ﻿using Del.Common.Helpers;
+using Del.Common.Models;
 using Del.Common.Requests;
 using Del.Common.Responses;
 using Del.Common.Services;
 using Delevery.Prism.Helpers;
 using Delevery.Prism.Views;
 using Newtonsoft.Json;
+using Plugin.FacebookClient;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace Delevery.Prism.ViewModels
@@ -18,6 +23,8 @@ namespace Delevery.Prism.ViewModels
         private bool _isRunning;
         private bool _isEnabled;
         private string _password;
+        private readonly IFacebookClient _facebookService = CrossFacebookClient.Current;
+        private DelegateCommand _loginFacebookCommand;
         private DelegateCommand _loginCommand;
         private DelegateCommand _registerCommand;
         private DelegateCommand _forgotPasswordCommand;
@@ -29,7 +36,7 @@ namespace Delevery.Prism.ViewModels
             _navigationService = navigationService;
             _apiService = apiService;
         }
-
+        public DelegateCommand LoginFacebookCommand => _loginFacebookCommand ?? (_loginFacebookCommand = new DelegateCommand(LoginFacebookAsync));
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(LoginAsync));
 
         public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(RegisterAsync));
@@ -117,6 +124,49 @@ namespace Delevery.Prism.ViewModels
 
 
         }
+        private async void LoginFacebookAsync()
+        {
+            try
+            {
+
+                if (_facebookService.IsLoggedIn)
+                {
+                    _facebookService.Logout();
+                }
+
+                async void userDataDelegate(object sender, FBEventArgs<string> e)
+                {
+                    switch (e.Status)
+                    {
+                        case FacebookActionStatus.Completed:
+                            FacebookProfile facebookProfile = await Task.Run(() => JsonConvert.DeserializeObject<FacebookProfile>(e.Data));
+                            break;
+                        case FacebookActionStatus.Canceled:
+                            await App.Current.MainPage.DisplayAlert("Facebook Auth", "Canceled", "Ok");
+                            break;
+                        case FacebookActionStatus.Error:
+                            await App.Current.MainPage.DisplayAlert("Facebook Auth", "Error", "Ok");
+                            break;
+                        case FacebookActionStatus.Unauthorized:
+                            await App.Current.MainPage.DisplayAlert("Facebook Auth", "Unauthorized", "Ok");
+                            break;
+                    }
+
+                    _facebookService.OnUserData -= userDataDelegate;
+                }
+
+                _facebookService.OnUserData += userDataDelegate;
+
+                string[] fbRequestFields = { "email", "first_name", "picture", "gender", "last_name" };
+                string[] fbPermisions = { "email" };
+                await _facebookService.RequestUserDataAsync(fbRequestFields, fbPermisions);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
 
         private void ForgotPasswordAsync()
         {

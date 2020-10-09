@@ -68,6 +68,11 @@ namespace Delevery.Prism.Helpers
 
         public static string Logout => Resource.Logout;
 
+        public static string LoginFacebook => Resource.LoginFacebook;
+
+        public static string ChangeOnSocialNetwork => Resource.ChangeOnSocialNetwork;
+
+
     }
 
 }
