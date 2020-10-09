@@ -1,4 +1,5 @@
 ﻿using Del.Common.Enums;
+using Del.Common.Models;
 using Delevery.Web.Data.Entities;
 using Delevery.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +42,8 @@ namespace Delevery.Web.Helpers
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
+
+        Task<User> AddUserAsync(FacebookProfile model);
 
 
 

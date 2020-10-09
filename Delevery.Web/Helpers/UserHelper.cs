@@ -1,4 +1,5 @@
 ﻿using Del.Common.Enums;
+using Del.Common.Models;
 using Delevery.Web.Data;
 using Delevery.Web.Data.Entities;
 using Delevery.Web.Models;
@@ -145,5 +146,34 @@ namespace Delevery.Web.Helpers
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
+
+        public async Task<User> AddUserAsync(FacebookProfile model)
+        {
+            User userEntity = new User
+            {
+                Address = "...",
+                Document = "...",
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                ImageFacebook = model.Picture?.Data?.Url,
+                PhoneNumber = "...",
+                UserName = model.Email,
+                UserType = UserType.User,
+                LoginType = LoginType.Facebook,
+                ImageId = Guid.Empty
+            };
+
+            IdentityResult result = await _userManager.CreateAsync(userEntity, model.Id);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            User newUser = await GetUserAsync(model.Email);
+            await AddUserToRoleAsync(newUser, userEntity.UserType.ToString());
+            return newUser;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Del.Common.Requests;
+﻿using Del.Common.Models;
+using Del.Common.Requests;
 using Del.Common.Responses;
 using Newtonsoft.Json;
 using System;
@@ -93,6 +94,48 @@ namespace Del.Common.Services
                 };
             }
         }
+
+        public async Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, FacebookProfile request)
+        {
+            try
+            {
+                string requestString = JsonConvert.SerializeObject(request);
+                StringContent content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(result);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = token
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
 
 
 

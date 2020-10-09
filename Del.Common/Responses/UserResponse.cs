@@ -1,5 +1,6 @@
 ﻿using Del.Common.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Del.Common.Responses
 {
@@ -21,9 +22,34 @@ namespace Del.Common.Responses
 
         public Guid ImageId { get; set; }
 
+
+        public string ImageFacebook { get; set; }
+
+        public LoginType LoginType { get; set; }
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (LoginType == LoginType.Facebook && string.IsNullOrEmpty(ImageFacebook) ||
+                    LoginType == LoginType.OnSale && ImageId == Guid.Empty)
+                {
+                    return $"https://delevery.azurewebsites.net/images/noimage.png";
+                }
+
+                if (LoginType == LoginType.Facebook)
+                {
+                    return ImageFacebook;
+                }
+
+                return $"https://delevery.blob.core.windows.net/users/{ImageId}";
+            }
+        }
+
+        /*[Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://delevery.azurewebsites.net/images/noimage.png"
-            : $"https://delevery.azurewebsites.net/users/{ImageId}";
+           ? $"https://delevery.azurewebsites.net/images/noimage.png"
+           : $"https://delevery.blob.core.windows.net/users/{ImageId}";*/
 
         public UserType UserType { get; set; }
 

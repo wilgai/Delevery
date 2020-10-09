@@ -3,7 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:prism="http://prismlibrary.com"
                   prism:ViewModelLocator.AutowireViewModel="True"
-                  xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                   xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                   xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
                   x:Class="Delevery.Prism.Views.OnSaleMasterDetailPage">
 
@@ -21,22 +21,20 @@
 
             <StackLayout Padding="20">
                 <StackLayout Orientation="Horizontal">
-                    <Image HeightRequest="80" 
-                Source="delevery"/>
+                   
                     <ffimageloading:CachedImage Aspect="AspectFill"
-                                    Source="{Binding User.ImageFullPath}" 
-                                    CacheDuration= "50"
-                                    HeightRequest="100"
-                                    Margin="5"
-                                    RetryCount= "3"
-                                    RetryDelay= "600"
-                                    WidthRequest="100">
+                                            Source="{Binding User.ImageFullPath}"  
+                                            CacheDuration= "50"
+                                            HeightRequest="100"
+                                            Margin="5"
+                                            RetryCount= "3"
+                                            RetryDelay= "600"
+                                            WidthRequest="100">
                         <ffimageloading:CachedImage.Transformations>
                             <fftransformations:CircleTransformation />
                         </ffimageloading:CachedImage.Transformations>
                     </ffimageloading:CachedImage>
                 </StackLayout>
-
                 <Label FontAttributes="Bold"
                     FontSize="Large"
                     Text="{Binding User.FullName}"/>

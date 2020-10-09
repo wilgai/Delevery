@@ -1,5 +1,6 @@
 ﻿
 using System.Threading.Tasks;
+using Del.Common.Models;
 using Del.Common.Requests;
 using Del.Common.Responses;
 
@@ -10,5 +11,7 @@ namespace Del.Common.Services
         Task<Response> GetListAsync<T>(string urlBase, string servicePrefix, string controller);
 
         Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request);
+
+        Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, FacebookProfile request);
     }
 }
