@@ -7,6 +7,7 @@ using Del.Common.Entities;
 using Delevery.Web.Models;
 using Delevery.Web.Data;
 using System.Globalization;
+using Delevery.Web.Data.Entities;
 
 namespace Onsale.Web.Helpers
 {

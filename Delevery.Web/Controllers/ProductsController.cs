@@ -1,5 +1,6 @@
 ﻿using Del.Common.Entities;
 using Delevery.Web.Data;
+using Delevery.Web.Data.Entities;
 using Delevery.Web.Helpers;
 using Delevery.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -38,6 +39,7 @@ namespace Onsale.Web.Controllers
             return View(await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
+                 
                 .ToListAsync());
         }
         public IActionResult Create()

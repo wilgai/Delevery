@@ -1,4 +1,5 @@
 ﻿using Del.Common.Entities;
+using Del.Common.Responses;
 using Delevery.Prism.Views;
 using Prism.Commands;
 using Prism.Navigation;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Delevery.Prism.itemViewModel
 {
-    public class ProductItemViewModel : Product
+    public class ProductItemViewModel : ProductResponse
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectProductCommand;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Del.Common.Entities;
 using Delevery.Web.Data;
+using Delevery.Web.Data.Entities;
 using Delevery.Web.Helpers;
 using Delevery.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,9 @@ namespace Delevery.Web.Controllers
 
         public async Task<IActionResult> Index()
             {
-                return View(await _context.Restaurants.ToListAsync());
+                return View(await _context.Restaurants
+                    .Include(p => p.Qualifications)
+                    .ToListAsync());
             }
 
         public IActionResult Create()
@@ -136,6 +139,25 @@ namespace Delevery.Web.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Restaurant product = await _context.Restaurants
+                .Include(c => c.Qualifications)
+                .ThenInclude(q => q.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
         }
 
 

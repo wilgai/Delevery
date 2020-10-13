@@ -1,4 +1,5 @@
 ﻿using Del.Common.Entities;
+using Delevery.Web.Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;

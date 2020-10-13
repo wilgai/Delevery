@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Del.Common.Entities
+namespace Delevery.Web.Data.Entities
 {
     public class OrderDetail
     {

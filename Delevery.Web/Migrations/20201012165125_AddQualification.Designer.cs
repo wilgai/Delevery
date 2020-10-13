@@ -4,14 +4,16 @@ using Delevery.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Delevery.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201012165125_AddQualification")]
+    partial class AddQualification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,9 +150,9 @@ namespace Delevery.Web.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Remarks");
+                    b.Property<int?>("ProductId");
 
-                    b.Property<int?>("RestaurantId");
+                    b.Property<string>("Remarks");
 
                     b.Property<float>("Score");
 
@@ -158,7 +160,7 @@ namespace Delevery.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RestaurantId");
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -413,9 +415,9 @@ namespace Delevery.Web.Migrations
 
             modelBuilder.Entity("Delevery.Web.Data.Entities.Qualification", b =>
                 {
-                    b.HasOne("Delevery.Web.Data.Entities.Restaurant", "Restaurant")
+                    b.HasOne("Delevery.Web.Data.Entities.Restaurant", "Product")
                         .WithMany("Qualifications")
-                        .HasForeignKey("RestaurantId");
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("Delevery.Web.Data.Entities.User", "User")
                         .WithMany()

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Del.Common.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Del.Common.Entities
+namespace Delevery.Web.Data.Entities
 {
     public class Product
     {
@@ -41,5 +42,6 @@ namespace Del.Common.Entities
             ? $"https://delevery.azurewebsites.net/images/noimage.png"
             : ProductImages.FirstOrDefault().ImageFullPath;
 
+        
     }
 }

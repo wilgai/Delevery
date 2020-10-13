@@ -1,5 +1,6 @@
 ﻿using Del.Common.Entities;
 using Delevery.Web.Data;
+using Delevery.Web.Data.Entities;
 using Delevery.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace Delevery.Web.Helpers
             };
         }
 
-
+        
     }
 
 }

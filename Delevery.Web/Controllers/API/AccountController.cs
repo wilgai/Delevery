@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,16 +104,16 @@ namespace Delevery.Web.Controllers.API
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost]
-        [Route("GetUserByEmail")]
-        public async Task<IActionResult> GetUserByEmail([FromBody] EmailRequest request)
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            User user = await _userHelper.GetUserAsync(request.Email);
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            User user = await _userHelper.GetUserAsync(email);
             if (user == null)
             {
                 return NotFound("Error001");
@@ -120,6 +121,7 @@ namespace Delevery.Web.Controllers.API
 
             return Ok(user);
         }
+
 
     }
 
