@@ -29,13 +29,13 @@ namespace Delevery.Web.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            
+
             await CheckRolesAsync();
             await CheckUserAsync("1010", "Wilgai", "Lorimer", "lorimerwilgai23@outlook.com", "1 829 939 2939", "Santo Domingo Este", UserType.Admin);
             await CheckCategoriesAsync();
             await CheckRestaurantsAsync();
             await CheckProductsAsync();
-            
+
         }
 
 
@@ -45,7 +45,7 @@ namespace Delevery.Web.Data
             {
                 User user = await _userHelper.GetUserAsync("lorimerwilgai23@outlook.com");
                 string lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris gravida, nunc vel tristique cursus.";
-                await AddRestaurantAsync("Burger King", "Ave. Venezuela", lorem,user);
+                await AddRestaurantAsync("Burger King", "Ave. Venezuela", lorem, user);
                 await AddRestaurantAsync("Mcdonald's", "Auto pista San Isidro", lorem, user);
                 await AddRestaurantAsync("KFC", "Ave. Sabana Larga", lorem, user);
                 await AddRestaurantAsync("Taco Bell", "Megacentro", lorem, user);
@@ -54,7 +54,7 @@ namespace Delevery.Web.Data
             }
         }
 
-        private async Task AddRestaurantAsync(string name, string address,string description,User user)
+        private async Task AddRestaurantAsync(string name, string address, string description, User user)
         {
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images", $"{name}.png");
@@ -62,7 +62,7 @@ namespace Delevery.Web.Data
             Restaurant restaurant = new Restaurant
             {
                 Name = name,
-                Address= address,
+                Address = address,
                 ImageId = imageId,
                 Qualifications = GetRandomQualifications(description, user)
             };
@@ -75,12 +75,11 @@ namespace Delevery.Web.Data
             {
                 User user = await _userHelper.GetUserAsync("lorimerwilgai23@outlook.com");
 
-                Restaurant Burger_King= await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "Burger King");
+                Restaurant Burger_King = await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "Burger King");
                 Restaurant Mcdonalds = await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "Mcdonald's");
                 Restaurant KFC = await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "KFC");
                 Restaurant Little_Caesars = await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "Little Caesars");
                 Restaurant Taco_bell = await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == "Taco Bell");
-
                 Category Almuerzo = await _context.Categories.FirstOrDefaultAsync(c => c.Name == "Almuerzo");
                 Category Desayuno = await _context.Categories.FirstOrDefaultAsync(c => c.Name == "Desayuno");
                 Category Cena = await _context.Categories.FirstOrDefaultAsync(c => c.Name == "Cena");
@@ -90,25 +89,22 @@ namespace Delevery.Web.Data
                 await AddProductAsync(Almuerzo, lorem, KFC, "Wow Box", 250, new string[] { "k1", "k2", "k3", "k4", "k5" }, user);
                 await AddProductAsync(Cena, lorem, Little_Caesars, "Pizza de Peperoni", 300, new string[] { "p1", "p2", "p3", "b1", "p5" }, user);
                 await AddProductAsync(Almuerzo, lorem, Taco_bell, "Taco", 400, new string[] { "t1", "t2", "t3", "t4", "t5" }, user);
-
-
-
                 await _context.SaveChangesAsync();
             }
         }
 
-        private async Task AddProductAsync(Category category, string description,Restaurant restaurant, string name, decimal price, string[] images, User user)
+        private async Task AddProductAsync(Category category, string description, Restaurant restaurant, string name, decimal price, string[] images, User user)
         {
             Product product = new Product
             {
                 Category = category,
                 Description = description,
-                Restaurant= restaurant,
+                Restaurant = restaurant,
                 IsActive = true,
                 Name = name,
                 Price = price,
                 ProductImages = new List<ProductImage>(),
-                
+
             };
 
             foreach (string image in images)
@@ -156,7 +152,7 @@ namespace Delevery.Web.Data
             _context.Categories.Add(new Category { Name = name, ImageId = imageId });
         }
 
-        
+
 
         private async Task CheckRolesAsync()
         {
@@ -185,13 +181,11 @@ namespace Delevery.Web.Data
                     PhoneNumber = phone,
                     Address = address,
                     Document = document,
-                   
                     UserType = userType
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
-
                 string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
@@ -199,7 +193,7 @@ namespace Delevery.Web.Data
             return user;
         }
 
-        
+
     }
 
 

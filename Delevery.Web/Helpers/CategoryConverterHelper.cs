@@ -51,6 +51,7 @@ namespace Onsale.Web.Helpers
             return new Product
             {
                 Category = await _context.Categories.FindAsync(model.CategoryId),
+                Restaurant = await _context.Restaurants.FindAsync(model.RestaurantId),
                 Description = model.Description,
                 Id = isNew ? 0 : model.Id,
                 IsActive = model.IsActive,
@@ -82,8 +83,11 @@ namespace Onsale.Web.Helpers
             return new ProductViewModel
             {
                 Categories = _categorycombosHelper.GetComboCategories(),
+                Restaurants = _restaurantCombosHelper.GetComboRestaurants(),
                 Category = product.Category,
                 CategoryId = product.Category.Id,
+                Restaurant= product.Restaurant,
+                RestaurantId=product.Restaurant.Id,
                 Description = product.Description,
                 Id = product.Id,
                 IsActive = product.IsActive,

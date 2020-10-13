@@ -12,7 +12,7 @@ namespace Delevery.Web.Models
         public string Id { get; set; }
 
         [MaxLength(20)]
-        [Required]
+        
         public string Document { get; set; }
 
         [Display(Name = "First Name")]
@@ -30,6 +30,7 @@ namespace Delevery.Web.Models
 
         [Display(Name = "Phone Number")]
         [MaxLength(20)]
+        [Required]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Image")]

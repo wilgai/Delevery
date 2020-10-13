@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Delevery.Web.Data;
+﻿using Delevery.Web.Data;
 using Delevery.Web.Data.Entities;
 using Delevery.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Onsale.Web.Helpers;
+using System.Text;
+using Vereyon.Web;
 
 namespace Delevery.Web
 {
@@ -56,20 +50,20 @@ namespace Delevery.Web
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
-            })  .AddDefaultTokenProviders()
+            }).AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
-                 services.AddAuthentication()
-                .AddCookie()
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = Configuration["Tokens:Issuer"],
-                        ValidAudience = Configuration["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                    };
-                });
+            services.AddAuthentication()
+           .AddCookie()
+           .AddJwtBearer(cfg =>
+           {
+               cfg.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidIssuer = Configuration["Tokens:Issuer"],
+                   ValidAudience = Configuration["Tokens:Audience"],
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+               };
+           });
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -82,6 +76,7 @@ namespace Delevery.Web
             services.AddScoped<ICategoryCombosHelper, CategoryCombosHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddFlashMessage();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

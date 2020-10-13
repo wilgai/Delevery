@@ -10,6 +10,7 @@ using Delevery.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 
 namespace Delevery.Web.Controllers
 {
@@ -21,12 +22,15 @@ namespace Delevery.Web.Controllers
 
         private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IFlashMessage _flashMessage;
 
-        public RestaurantsController(DataContext context, IBlobHelper blobHelper, IConverterHelper converterHelper)
+        public RestaurantsController(DataContext context, IBlobHelper blobHelper, IConverterHelper converterHelper, IFlashMessage flashMessage)
         {
             _context = context;
             _blobHelper = blobHelper;
             _converterHelper = converterHelper;
+            _flashMessage = flashMessage;
+
         }
 
 
@@ -61,22 +65,26 @@ namespace Delevery.Web.Controllers
                     Restaurant restaurant = _converterHelper.ToRestaurant(model, imageId, true);
                     _context.Add(restaurant);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Record was added");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There is already a record with same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("Error adding this record.");
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("Error adding this record.");
                 }
             }
 
@@ -118,6 +126,7 @@ namespace Delevery.Web.Controllers
                     Restaurant restaurant = _converterHelper.ToRestaurant(model, imageId, false);
                     _context.Update(restaurant);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Record was added");
                     return RedirectToAction(nameof(Index));
 
                 }
@@ -125,16 +134,20 @@ namespace Delevery.Web.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There are a record with the same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("Error editing this record.");
+
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("Error editing this record.");
                 }
             }
 
@@ -178,11 +191,13 @@ namespace Delevery.Web.Controllers
             try
             {
                 _context.Restaurants.Remove(restaurant);
+                _flashMessage.Confirmation("Record was deleted.");
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+                //ModelState.AddModelError(string.Empty, ex.Message);
+                _flashMessage.Danger("Error deleting this record.");
             }
 
             return RedirectToAction(nameof(Index));

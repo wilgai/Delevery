@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace Onsale.Web.Controllers
 {
@@ -22,9 +23,10 @@ namespace Onsale.Web.Controllers
         private readonly ICategoryConverterHelper _categoryConverterHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IRestaurantCombosHelper _restaurantCombosHelper;
+        private readonly IFlashMessage _flashMessage;
 
         public ProductsController(DataContext context, IBlobHelper blobHelper, ICategoryCombosHelper categorycombosHelper, IConverterHelper converterHelper,
-            ICategoryConverterHelper categoryConverterHelper, IRestaurantCombosHelper restaurantCombosHelper)
+            ICategoryConverterHelper categoryConverterHelper, IRestaurantCombosHelper restaurantCombosHelper, IFlashMessage flashMessage)
         {
             _context = context;
             _blobHelper = blobHelper;
@@ -32,14 +34,16 @@ namespace Onsale.Web.Controllers
             _converterHelper = converterHelper;
             _categoryConverterHelper = categoryConverterHelper;
             _restaurantCombosHelper = restaurantCombosHelper;
+            _flashMessage = flashMessage;
         }
 
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products
                 .Include(p => p.Category)
+                
                 .Include(p => p.ProductImages)
-                 
+    
                 .ToListAsync());
         }
         public IActionResult Create()
@@ -76,22 +80,26 @@ namespace Onsale.Web.Controllers
 
                     _context.Add(product);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Product was created.");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There are a product with the same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("The product was not created.");
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("The product was not created.");
                 }
             }
 
@@ -144,6 +152,7 @@ namespace Onsale.Web.Controllers
 
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Product was edited.");
                     return RedirectToAction(nameof(Index));
 
                 }
@@ -151,16 +160,19 @@ namespace Onsale.Web.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There are a product with the same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("The product was not edited.");
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("The product was not edited.");
                 }
             }
 
@@ -189,11 +201,13 @@ namespace Onsale.Web.Controllers
             try
             {
                 _context.Products.Remove(product);
+                _flashMessage.Confirmation("The record was deleted");
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+                //ModelState.AddModelError(string.Empty, ex.Message);
+                _flashMessage.Danger("The record was not deleted.");
             }
 
             return RedirectToAction(nameof(Index));
@@ -262,12 +276,14 @@ namespace Onsale.Web.Controllers
                     product.ProductImages.Add(new ProductImage { ImageId = imageId });
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Image was added");
                     return RedirectToAction($"{nameof(Details)}/{product.Id}");
 
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    // ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("Error adding the image.");
                 }
             }
 
@@ -292,6 +308,7 @@ namespace Onsale.Web.Controllers
             Product product = await _context.Products.FirstOrDefaultAsync(p => p.ProductImages.FirstOrDefault(pi => pi.Id == productImage.Id) != null);
             _context.ProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
+            _flashMessage.Danger("Image was deleted.");
             return RedirectToAction($"{nameof(Details)}/{product.Id}");
         }
 

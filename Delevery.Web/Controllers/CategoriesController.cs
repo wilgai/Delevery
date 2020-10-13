@@ -9,6 +9,7 @@ using Delevery.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 
 namespace Delevery.Web.Controllers
 {
@@ -18,12 +19,14 @@ namespace Delevery.Web.Controllers
         private readonly DataContext _context;
         private readonly IBlobHelper _blobHelper;
         private readonly ICategoryConverterHelper _categoryconverterHelper;
+        private readonly IFlashMessage _flashMessage;
 
-        public CategoriesController(DataContext context, IBlobHelper blobHelper, ICategoryConverterHelper categoryconverterHelper)
+        public CategoriesController(DataContext context, IBlobHelper blobHelper, ICategoryConverterHelper categoryconverterHelper, IFlashMessage flashMessage)
         {
             _context = context;
             _blobHelper = blobHelper;
             _categoryconverterHelper = categoryconverterHelper;
+            _flashMessage = flashMessage;
         }
 
         public async Task<IActionResult> Index()
@@ -55,22 +58,26 @@ namespace Delevery.Web.Controllers
                     Category category = _categoryconverterHelper.ToCategory(model, imageId, true);
                     _context.Add(category);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("Category was added");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There are a record with the same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("Sorry, the record can't be added");
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("Sorry, the record can't be added");
                 }
             }
 
@@ -112,23 +119,28 @@ namespace Delevery.Web.Controllers
                     Category category = _categoryconverterHelper.ToCategory(model, imageId, false);
                     _context.Update(category);
                     await _context.SaveChangesAsync();
+                    _flashMessage.Confirmation("The category was edited.");
                     return RedirectToAction(nameof(Index));
+                    
 
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        //ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                        _flashMessage.Danger("There is a record with the same name.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        //ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger("The category can't be edited.");
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    //ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger("The category can't be edited.");
                 }
             }
 
@@ -153,10 +165,12 @@ namespace Delevery.Web.Controllers
             {
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
+                _flashMessage.Confirmation("The category was deleted.");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+               
+                _flashMessage.Danger("The category can't be deleted because it has related records.");
             }
 
             return RedirectToAction(nameof(Index));

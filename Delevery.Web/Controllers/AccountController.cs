@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 
 namespace Delevery.Web.Controllers
 {
@@ -20,14 +21,15 @@ namespace Delevery.Web.Controllers
         private readonly IBlobHelper _blobHelper;
         private readonly DataContext _context;
         private readonly IMailHelper _mailHelper;
-        public AccountController( DataContext context,IUserHelper userHelper,  IBlobHelper blobHelper, IMailHelper mailHelper)
+        private readonly IFlashMessage _flashMessage;
+        public AccountController( DataContext context,IUserHelper userHelper,  IBlobHelper blobHelper, IMailHelper mailHelper, IFlashMessage flashMessage)
         {
 
             _context = context;
             _userHelper = userHelper;
             _blobHelper = blobHelper;
             _mailHelper = mailHelper;
-
+            _flashMessage = flashMessage;
         }
 
         public IActionResult NotAuthorized()
@@ -72,8 +74,10 @@ namespace Delevery.Web.Controllers
                 User user = await _userHelper.AddUserAsync(model, imageId, UserType.Admin);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
-                    
+                    //ModelState.AddModelError(string.Empty, "This email is already used.");
+                    _flashMessage.Danger("This email is already used.");
+
+
                     return View(model);
                 }
 
@@ -90,10 +94,12 @@ namespace Delevery.Web.Controllers
                 if (response.IsSuccess)
                 {
                     ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                    _flashMessage.Confirmation("The instructions to allow your user has been sent to email.");
                     return View(model);
                 }
 
-                ModelState.AddModelError(string.Empty, response.Message);
+                //ModelState.AddModelError(string.Empty, response.Message);
+                _flashMessage.Danger("Error creating the account.");
             }
 
             
@@ -129,7 +135,8 @@ namespace Delevery.Web.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError(string.Empty, "Email or password incorrect.");
+                //ModelState.AddModelError(string.Empty, "Email or password incorrect.");
+                _flashMessage.Danger("Email or password incorrect.");
             }
 
             return View(model);
@@ -169,8 +176,9 @@ namespace Delevery.Web.Controllers
                 User user = await _userHelper.AddUserAsync(model, imageId, UserType.User);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
-                   
+                    //ModelState.AddModelError(string.Empty, "This email is already used.");
+                    _flashMessage.Danger("This email is already used.");
+
                     return View(model);
                 }
 
@@ -187,10 +195,12 @@ namespace Delevery.Web.Controllers
                 if (response.IsSuccess)
                 {
                     ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                    _flashMessage.Confirmation("The instructions to allow your user has been sent to email.");
                     return View(model);
                 }
 
-                ModelState.AddModelError(string.Empty, response.Message);
+                //ModelState.AddModelError(string.Empty, response.Message);
+                _flashMessage.Danger("Error registering the account.");
             }
 
            
@@ -260,13 +270,13 @@ namespace Delevery.Web.Controllers
             return View(model);
         }
 
-        public IActionResult ChangePassword()
+        public IActionResult ChangePasswordMVC()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePasswordMVC(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -285,7 +295,8 @@ namespace Delevery.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "User no found.");
+                    //ModelState.AddModelError(string.Empty, "User no found.");
+                    _flashMessage.Danger("User no found.");
                 }
             }
 
@@ -322,7 +333,7 @@ namespace Delevery.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> RecoverPasswordMVC(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -341,6 +352,7 @@ namespace Delevery.Web.Controllers
                 _mailHelper.SendMail(model.Email, "Password Reset", $"<h1>Password Reset</h1>" +
                     $"To reset the password click in this link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
+                _flashMessage.Confirmation("The instructions to recover your password has been sent to email.");
                 ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 return View();
 
