@@ -195,12 +195,34 @@
   <data name="Logout" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>
-
-	<data name="LoginFacebook" xml:space="preserve">
+  <data name="LoginFacebook" xml:space="preserve">
     <value>Connectez-vous avec Facebook</value>
   </data>
-	<data name="ChangeOnSocialNetwork" xml:space="preserve">
+  <data name="ChangeOnSocialNetwork" xml:space="preserve">
     <value>Les utilisateurs inscrits sur les réseaux sociaux doivent changer la photo ou le mot de passe sur le réseau social.</value>
   </data>
-
+  <data name="LoginFirstMessage" xml:space="preserve">
+    <value>Vous devez être connecté pour terminer cette action. Vous pouvez vous connecter ou vous enregistrer en tant qu'utilisateur ci-dessous.</value>
+  </data>
+  <data name="Qualification" xml:space="preserve">
+    <value>Qualification</value>
+  </data>
+  <data name="Qualifications" xml:space="preserve">
+    <value>Évaluations</value>
+  </data>
+  <data name="QualificationNumber" xml:space="preserve">
+    <value>Numero d'evaluation</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Réunion</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Places" xml:space="preserve">
+    <value>Endroits</value>
+  </data>
 </root>

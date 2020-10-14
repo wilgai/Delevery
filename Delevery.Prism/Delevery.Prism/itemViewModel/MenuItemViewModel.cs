@@ -1,11 +1,9 @@
 ﻿using Del.Common.Helpers;
 using Del.Common.Models;
+using Delevery.Prism.Helpers;
 using Delevery.Prism.Views;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Delevery.Prism.itemViewModel
 {
@@ -29,7 +27,21 @@ namespace Delevery.Prism.itemViewModel
                 Settings.Token = null;
             }
 
-            await _navigationService.NavigateAsync($"/{nameof(OnSaleMasterDetailPage)}/NavigationPage/{PageName}");
+            if (IsLoginRequired && !Settings.IsLogin)
+            {
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.LoginFirstMessage, Languages.Accept);
+                NavigationParameters parameters = new NavigationParameters
+                {
+                    { "pageReturn", PageName }
+                };
+
+                await _navigationService.NavigateAsync($"/{nameof(OnSaleMasterDetailPage)}/NavigationPage/{nameof(LoginPage)}", parameters);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync($"/{nameof(OnSaleMasterDetailPage)}/NavigationPage/{PageName}");
+            }
+
         }
     }
 

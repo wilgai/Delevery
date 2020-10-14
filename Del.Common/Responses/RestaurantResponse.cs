@@ -12,9 +12,11 @@ namespace Del.Common.Responses
 
         public string Name { get; set; }
 
+        public string Address { get; set; }
+
         public Guid ImageId { get; set; }
 
-      
+       
 
         [Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty

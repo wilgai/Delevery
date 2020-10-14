@@ -71,7 +71,17 @@ namespace Delevery.Prism.Helpers
         public static string LoginFacebook => Resource.LoginFacebook;
 
         public static string ChangeOnSocialNetwork => Resource.ChangeOnSocialNetwork;
+        public static string LoginFirstMessage => Resource.LoginFirstMessage;
 
+        public static string Qualification => Resource.Qualification;
+
+        public static string Qualifications => Resource.Qualifications;
+
+        public static string QualificationNumber => Resource.QualificationNumber;
+
+        public static string Details => Resource.Details;
+
+        public static string Places => Resource.Places;
 
     }
 

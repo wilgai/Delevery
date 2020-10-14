@@ -24,7 +24,7 @@ namespace Delevery.Prism
             
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"{nameof(OnSaleMasterDetailPage)}/NavigationPage/{nameof(ProductsPage)}");
+            await NavigationService.NavigateAsync($"{nameof(OnSaleMasterDetailPage)}/NavigationPage/{nameof(RestaurantsPage)}");
             //await NavigationService.NavigateAsync($"NavigationPage/{nameof(OnSaleMasterDetailPage)}");
 
         }
@@ -43,6 +43,7 @@ namespace Delevery.Prism
             containerRegistry.RegisterForNavigation<ShowCarPage, ShowCarPageViewModel>();
             containerRegistry.RegisterForNavigation<ShowHistoryPage, ShowHistoryPageViewModel>();
             containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+            containerRegistry.RegisterForNavigation<RestaurantsPage, RestaurantsPageViewModel>();
         }
     }
 }
