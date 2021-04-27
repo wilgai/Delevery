@@ -1,12 +1,8 @@
-﻿using Del.Common.Entities;
-using Delevery.Web.Data.Entities;
+﻿using Delevery.Web.Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Delevery.Web.Models
 {
@@ -27,6 +23,9 @@ namespace Delevery.Web.Models
 
         [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }
+
+
+
 
         [Display(Name = "Price")]
         [MaxLength(12)]

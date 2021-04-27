@@ -24,6 +24,8 @@ namespace Onsale.Web.Helpers
         }
         public Category ToCategory(CategoryViewModel model, Guid imageId, bool isNew)
         {
+
+            
             return new Category
             {
                 Id = isNew ? 0 : model.Id,

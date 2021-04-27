@@ -42,6 +42,7 @@ namespace Delevery.Web.Data.Entities
             ? $"https://delevery.azurewebsites.net/images/noimage.png"
             : ProductImages.FirstOrDefault().ImageFullPath;
 
+
         
     }
 }

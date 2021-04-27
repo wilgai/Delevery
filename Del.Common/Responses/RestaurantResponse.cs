@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace Del.Common.Responses
 {
@@ -16,12 +15,12 @@ namespace Del.Common.Responses
 
         public Guid ImageId { get; set; }
 
-       
+        
 
         [Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://delevery.azurewebsites.net/images/noimage.png"
-            : $"https://delevery.blob.core.windows.net/restaurants/{ImageId}";
+            :$"https://delevery.blob.core.windows.net/restaurants/{ImageId}";
 
         public ICollection<QualificationResponse> Qualifications { get; set; }
 

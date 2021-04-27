@@ -1,17 +1,14 @@
 ﻿using Del.Common.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Delevery.Web.Data.Entities
 {
     public class User : IdentityUser
     {
         [MaxLength(20)]
-        
+
         public string Document { get; set; }
 
         [Display(Name = "First Name")]
@@ -32,30 +29,30 @@ namespace Delevery.Web.Data.Entities
 
         //TODO: Pending to put the correct paths
 
-         [Display(Name = "Login Type")]
-         public LoginType LoginType { get; set; }
+        [Display(Name = "Login Type")]
+        public LoginType LoginType { get; set; }
 
-         public string ImageFacebook { get; set; }
+        public string ImageFacebook { get; set; }
 
-         [Display(Name = "Image")]
-         public string ImageFullPath
-         {
-             get
-             {
-                 if (LoginType == LoginType.Facebook && string.IsNullOrEmpty(ImageFacebook) ||
-                     LoginType == LoginType.OnSale && ImageId == Guid.Empty)
-                 {
-                     return $"https://delevery.azurewebsites.net/images/noimage.png";
-                 }
+        [Display(Name = "Image")]
+        public string ImageFullPath
+        {
+            get
+            {
+                if (LoginType == LoginType.Facebook && string.IsNullOrEmpty(ImageFacebook) ||
+                    LoginType == LoginType.OnSale && ImageId == Guid.Empty)
+                {
+                    return $"https://delevery.azurewebsites.net/images/noimage.png";
+                }
 
-                 if (LoginType == LoginType.Facebook)
-                 {
-                     return ImageFacebook;
-                 }
+                if (LoginType == LoginType.Facebook)
+                {
+                    return ImageFacebook;
+                }
 
-                 return $"https://delevery.blob.core.windows.net/users/{ImageId}";
-             }
-         }
+                return $"https://delevery.blob.core.windows.net/users/{ImageId}";
+            }
+        }
         /*[Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://delevery.azurewebsites.net/images/noimage.png"

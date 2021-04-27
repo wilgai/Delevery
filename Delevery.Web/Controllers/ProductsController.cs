@@ -73,9 +73,9 @@ namespace Onsale.Web.Controllers
                     {
                         Guid imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
                         product.ProductImages = new List<ProductImage>
-                {
-                    new ProductImage { ImageId = imageId }
-                };
+                            {
+                                new ProductImage { ImageId = imageId }
+                            };
                     }
 
                     _context.Add(product);

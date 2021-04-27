@@ -22,8 +22,6 @@ namespace Delevery.Prism.ViewModels
         private string _search;
         private List<RestaurantResponse> _myRestaurants;
         private DelegateCommand _searchCommand;
-
-
         public RestaurantsPageViewModel(INavigationService navigationService, IApiservice apiService) : base(navigationService)
         {
             _navigationService = navigationService;
@@ -88,7 +86,8 @@ namespace Delevery.Prism.ViewModels
                 {
                     
                     Name = r.Name,
-                    Address = r.Address
+                    Address = r.Address,
+                    ImageId = r.ImageId
 
                 })
                     .ToList());
@@ -97,14 +96,15 @@ namespace Delevery.Prism.ViewModels
             {
                 Restaurants = new ObservableCollection<RestaurantItemViewModel>(_myRestaurants.Select(r => new RestaurantItemViewModel(_navigationService)
                 {
-                   
+
                     Name = r.Name,
-                    Address=r.Address
-                    
-                   
+                    Address = r.Address,
+                    ImageId = r.ImageId
+
+
                 })
                     .Where(p => p.Name.ToLower().Contains(Search.ToLower()))
-                    .ToList());
+                    .ToList()); ; ;
             }
         }
 
